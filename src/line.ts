@@ -4,14 +4,16 @@ import { callPerplexityAPI } from "./perplexity";
 
 export function sendReply(event: LineEvent): void {
   const replyToken = event.replyToken;
-  const userMessage = event.message.text;
+  const messageType = event.message.type;
   const url = "https://api.line.me/v2/bot/message/reply";
 
   let response = "";
-  if (userMessage === undefined) {
-    response = "テキストメッセージでお願いします";
+
+  if (messageType !== "image") {
+    response = "画像を送信してください。";
   } else {
-    response = callPerplexityAPI(userMessage);
+    const imageContent = getImageContent(event.message.id);
+    response = callPerplexityAPI(imageContent);
   }
 
   UrlFetchApp.fetch(url, {
@@ -30,4 +32,15 @@ export function sendReply(event: LineEvent): void {
       ],
     }),
   });
+}
+
+function getImageContent(messageId: string): string {
+  const url = `https://api-data.line.me/v2/bot/message/${messageId}/content`;
+  const response = UrlFetchApp.fetch(url, {
+    headers: {
+      Authorization: "Bearer " + config.LINE_ACCESS_TOKEN,
+    },
+    method: "get",
+  });
+  return response.getContentText();
 }

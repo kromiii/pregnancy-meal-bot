@@ -1,7 +1,11 @@
 export interface LineEvent {
   replyToken: string;
   message: {
-    text?: string;
+    type: string;
+    id: string;
+    contentProvider: {
+      type: string;
+    };
   };
   source: {
     userId: string;
