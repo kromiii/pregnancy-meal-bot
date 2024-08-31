@@ -1,17 +1,16 @@
 export interface LineEvent {
   replyToken: string;
-  message: {
-    text?: string;
-  };
+  message: MessageEvent,
   source: {
     userId: string;
   };
 }
 
-export interface ApiResponse {
-  choices: {
-    message: {
-      content: string;
-    };
-  }[];
+export interface MessageEvent {
+  type: string;
+   id: string;
+   contentProvider: {
+     type: string;
+   };
+   text: string;
 }
