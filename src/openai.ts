@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { config } from "./config";
+
 const openai = new OpenAI({
   apiKey: config.OPENAI_API_KEY || undefined,
 });
@@ -13,7 +14,7 @@ export async function callOpenAIAPI(imageContent: string): Promise<string> {
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
+      model: "gpt-4o",
       messages: [
         { role: "system", content: prompt },
         {
@@ -27,7 +28,7 @@ export async function callOpenAIAPI(imageContent: string): Promise<string> {
           ],
         },
       ],
-      max_tokens: 3000,
+      max_tokens: 4096,
     });
 
     return response.choices[0].message.content || "応答内容がありません。";
