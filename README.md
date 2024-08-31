@@ -7,7 +7,6 @@ This project is a LINE bot designed to assist pregnant women with meal planning 
 1. Create a new Google Apps Script project.
 2. Copy the contents of each TypeScript file into separate `.ts` files in your project.
 3. Set up the necessary script properties:
-   - SPREAD_SHEET_ID
    - PERPLEXITY_APIKEY
    - LINE_ACCESS_TOKEN
 4. Deploy the web app and set up the LINE webhook to point to your deployed app URL.
@@ -21,10 +20,8 @@ This project is a LINE bot designed to assist pregnant women with meal planning 
 
 - `src/config.ts`: Configuration and environment variables
 - `src/types.ts`: TypeScript type definitions
-- `src/spreadsheet.ts`: Spreadsheet logging functionality
 - `src/perplexity.ts`: Perplexity API integration
 - `src/line.ts`: LINE messaging integration
-- `src/openai.ts`: OpenAI GPT integration
 - `src/main.ts`: Main entry point for the Apps Script web app
 - `appsscript.json`: Apps Script manifest file
 
