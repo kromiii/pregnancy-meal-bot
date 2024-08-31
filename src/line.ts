@@ -2,11 +2,11 @@ import { config } from "./config";
 import { LineEvent, MessageEvent } from "./types";
 import { callOpenAIAPI } from "./openai";
 
-export async function sendReply(event: LineEvent): Promise<void> {
+export function sendReply(event: LineEvent): void {
   const replyToken = event.replyToken;
   const url = "https://api.line.me/v2/bot/message/reply";
+  const response = handleEvent(event.message);
 
-  const response = await handleEvent(event.message);
   UrlFetchApp.fetch(url, {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
@@ -25,16 +25,14 @@ export async function sendReply(event: LineEvent): Promise<void> {
   });
 }
 
-async function handleEvent(message: MessageEvent): Promise<string> {
+function handleEvent(message: MessageEvent): string {
   let response: string;
-
-  if (message.type !== 'image') {
+  if (message.type !== "image") {
     response = "画像を送信してください。";
   } else {
     const imageContent = getImageContent(message.id);
-    response = await callOpenAIAPI(imageContent);
+    response = callOpenAIAPI(imageContent);
   }
-
   return response;
 }
 
