@@ -1,5 +1,17 @@
 {
+  "type": "module",
   "dependencies": {
     "@types/google-apps-script": "^1.0.83"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.1",
+    "esbuild-gas-plugin": "^0.8.0",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "push": "clasp push",
+    "open": "clasp open",
+    "deploy": "npm run build && npm run push"
   }
 }

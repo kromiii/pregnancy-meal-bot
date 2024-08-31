@@ -1,5 +1,5 @@
-import { config } from "../config";
-import { ApiResponse } from "../types";
+import { config } from "./config";
+import { ApiResponse } from "./types";
 
 export function callPerplexityAPI(query: string): string {
   const apiKey = config.PERPLEXITY_APIKEY;
