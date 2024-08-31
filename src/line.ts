@@ -1,21 +1,12 @@
 import { config } from "./config";
-import { LineEvent } from "./types";
-import { callPerplexityAPI } from "./perplexity";
+import { LineEvent, MessageEvent } from "./types";
+import { callOpenAIAPI } from "./openai";
 
-export function sendReply(event: LineEvent): void {
+export async function sendReply(event: LineEvent): Promise<void> {
   const replyToken = event.replyToken;
-  const messageType = event.message.type;
   const url = "https://api.line.me/v2/bot/message/reply";
 
-  let response = "";
-
-  if (messageType !== "image") {
-    response = "画像を送信してください。";
-  } else {
-    const imageContent = getImageContent(event.message.id);
-    response = callPerplexityAPI(imageContent);
-  }
-
+  const response = await handleEvent(event.message);
   UrlFetchApp.fetch(url, {
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
@@ -32,6 +23,19 @@ export function sendReply(event: LineEvent): void {
       ],
     }),
   });
+}
+
+async function handleEvent(message: MessageEvent): Promise<string> {
+  let response: string;
+
+  if (message.type !== 'image') {
+    response = "画像を送信してください。";
+  } else {
+    const imageContent = getImageContent(message.id);
+    response = await callOpenAIAPI(imageContent);
+  }
+
+  return response;
 }
 
 function getImageContent(messageId: string): string {
