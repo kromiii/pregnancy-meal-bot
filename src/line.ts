@@ -44,5 +44,13 @@ function getImageContent(messageId: string): string {
     },
     method: "get",
   });
-  return response.getContentText();
+  
+  // バイナリデータを取得
+  const binaryData = response.getContent();
+  
+  // バイナリデータをBase64エンコード
+  const base64EncodedData = Utilities.base64Encode(binaryData);
+  
+  return base64EncodedData;
 }
+
